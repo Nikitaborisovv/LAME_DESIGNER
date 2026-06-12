@@ -1,0 +1,40 @@
+{
+  "name": "videofx-scanner",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev:phone": "vite --mode phone",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "^3.8.1",
+    "@mediapipe/tasks-vision": "^0.10.35",
+    "@react-three/drei": "^10.0.0",
+    "@react-three/fiber": "^9.6.1",
+    "onnxruntime-web": "1.22.0-dev.20250409-89f8206ba4",
+    "qrcode": "^1.5.4",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "rete": "^2.0.6",
+    "rete-area-plugin": "^2.1.5",
+    "rete-connection-plugin": "^2.0.5",
+    "rete-react-plugin": "^2.1.0",
+    "rete-render-utils": "^2.0.3",
+    "styled-components": "^6.4.2",
+    "three": "^0.176.0"
+  },
+  "devDependencies": {
+    "@types/qrcode": "^1.5.6",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@types/three": "^0.176.0",
+    "@types/ws": "^8.18.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.6.0",
+    "vite": "^6.0.0",
+    "ws": "^8.21.0"
+  }
+}

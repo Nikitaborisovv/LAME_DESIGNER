@@ -1,0 +1,205 @@
+{
+  "fpsCap": 60,
+  "hideVideo": false,
+  "depthEveryNthFrame": 1,
+  "depthResolution": 512,
+  "depthSmoothMode": "ema",
+  "depthSmoothAlpha": 0.46,
+  "depthMotionBoost": 2.9,
+  "depthDeadband": 0,
+  "cacheEnabled": false,
+  "cacheResolution": 1024,
+  "cacheFps": 30,
+  "depthScale": 2.65,
+  "frontLock": true,
+  "depthEnabled": true,
+  "pointSize": 0.5,
+  "pointSquare": true,
+  "maxFaces": 2,
+  "faceSmooth": 0.6,
+  "peopleColor": "#00d4f0",
+  "peopleColor2": "#d4ff00",
+  "peopleFillGradient": true,
+  "peopleFillOpacity": 0,
+  "peopleFillOpacity2": 1,
+  "peopleOutlineColor": "#ffea00",
+  "peopleOutlineColor2": "#389fff",
+  "peopleOutlineGradient": true,
+  "peopleGradientByInstance": true,
+  "layers": [
+    {
+      "id": "68f53fa7-a7b3-4a0f-9bfd-3ece3c9131d1",
+      "kind": "faceMesh",
+      "name": "Лица — сетка (468)",
+      "enabled": true,
+      "params": {
+        "faceMeshColor": "#7be6ff",
+        "faceMeshDensity": 0.55,
+        "faceMeshPointSize": 2.5,
+        "faceMeshColorRandom": 0.75,
+        "facePointScaleRandom": 0.6,
+        "faceSquareChance": 0.25
+      },
+      "start": null,
+      "end": null
+    },
+    {
+      "id": "d710738e-3fcc-47cc-8fb0-8a9e2567cb9b",
+      "kind": "motion",
+      "name": "Детекция движения",
+      "enabled": false,
+      "params": {
+        "motionSensitivity": 0.21,
+        "motionGap": 4,
+        "motionDecay": 0.97,
+        "motionHeatThreshold": 0.15,
+        "motionMinArea": 24,
+        "motionMaxBoxes": 5,
+        "motionSmooth": 0.6,
+        "motionColor": "#ff70c3",
+        "motionColor2": "#c8ff00",
+        "motionThickness": 5,
+        "motionLabel": "TRACK",
+        "motionLabelSize": 9,
+        "motionAscii": true,
+        "motionAsciiDensity": 0.15,
+        "motionLinkEnabled": false,
+        "motionLinkColor": "#3cffaa",
+        "motionLinkColor2": "#36e6ff",
+        "motionLinkWidth": 1.2,
+        "motionLinkWidthRandom": 0.5,
+        "motionLinkCurve": 0.35,
+        "motionLinkAxis": "auto",
+        "motionLinkScaleMin": 1.2,
+        "motionLinkScaleMax": 3.5,
+        "motionLinkLabelChance": 0
+      },
+      "start": null,
+      "end": null
+    },
+    {
+      "id": "792337a4-e15a-48bc-b183-549370f2fdaf",
+      "kind": "peopleBox",
+      "name": "Bounding box людей",
+      "enabled": true,
+      "params": {
+        "peopleBoxThickness": 1,
+        "peopleBoxGradient": true,
+        "peopleBoxColor": "#ff4d4d",
+        "peopleBoxColor2": "#ffd23c"
+      },
+      "start": null,
+      "end": null
+    },
+    {
+      "id": "febde1e6-c0e9-403b-b462-96dacca34687",
+      "kind": "peopleMask",
+      "name": "Обводка YOLO (инстансы)",
+      "enabled": true,
+      "params": {
+        "peopleFill": true,
+        "peopleOutline": true,
+        "peopleInput": 640,
+        "peopleConf": 0.4,
+        "peopleMaskThreshold": 0.5,
+        "peopleIou": 0.35,
+        "peopleEveryNthFrame": 1,
+        "peopleMaskSmooth": 0
+      },
+      "start": null,
+      "end": null
+    },
+    {
+      "id": "f0bc9cb5-d7cd-44a3-9c9e-4df2419d4c4b",
+      "kind": "sobel",
+      "name": "Обводка (Sobel)",
+      "enabled": true,
+      "params": {
+        "sobelOnly": false,
+        "sobelColor": "#e1ff00",
+        "sobelStrength": 0.9,
+        "sobelThickness": 1,
+        "sobelTolerance": 1,
+        "sobelPixelate": 4
+      },
+      "start": null,
+      "end": null
+    },
+    {
+      "id": "3f4e9204-891c-494d-ac18-caa97521227f",
+      "kind": "pixelate",
+      "name": "Пикселизация по глубине",
+      "enabled": true,
+      "params": {
+        "pixelateGrid": true,
+        "pixelateNear": 2,
+        "pixelateFar": 24,
+        "pixelateRampNear": 0.14,
+        "pixelateRampFar": 0,
+        "pixelateBlur": 0
+      },
+      "start": null,
+      "end": null
+    },
+    {
+      "id": "f242e336-14f6-4be4-824c-107cbb5b074c",
+      "kind": "constellation3D",
+      "name": "Constellation (3D)",
+      "enabled": true,
+      "params": {
+        "featureCount": 20,
+        "linkDistance": 0.3,
+        "constellationSmooth": 0.35,
+        "constellationColor": "#ffffff",
+        "constellationColor2": "#ffffff",
+        "lineWidth": 1.5,
+        "lineWidthRandom": 0,
+        "constellationCurve": 1,
+        "constellationLabelChance": 1,
+        "constellationScaleMin": 0.6,
+        "constellationScaleMax": 3.5,
+        "constellationLineAxis": "auto"
+      },
+      "start": null,
+      "end": null
+    },
+    {
+      "id": "30c1bfc1-eee9-4725-98ac-e16ccaf9a519",
+      "kind": "scanAscii",
+      "name": "ASCII от сканера (3D)",
+      "enabled": false,
+      "params": {
+        "scanAsciiColor": "#fb83db",
+        "scanAsciiDensity": 1,
+        "scanAsciiSpeed": 0.1,
+        "scanAsciiFade": 0.4,
+        "scanAsciiFadeRandom": 0.25,
+        "scanAsciiScaleMin": 3,
+        "scanAsciiScaleMax": 24,
+        "scanAsciiOpacity": 0.6
+      },
+      "start": null,
+      "end": null
+    },
+    {
+      "id": "f1ee3217-e081-4743-abb1-55bc7fb3cda2",
+      "kind": "scan",
+      "name": "Сканер по глубине (3D)",
+      "enabled": false,
+      "params": {
+        "scanSpeed": 0.35,
+        "scanWidth": 0.2,
+        "scanHide": false,
+        "scanOnly": false,
+        "scanColor": "#aeff00",
+        "scanGradient": true,
+        "scanColor2": "#fe95d2",
+        "scanColor3": "#00c8fa",
+        "scanNoiseAmount": 0.025,
+        "scanNoiseScale": 6
+      },
+      "start": null,
+      "end": null
+    }
+  ]
+}

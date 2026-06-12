@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+    <title>VIDEO_HUD · камера телефона</title>
+    <style>
+      :root { color-scheme: dark; }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; height: 100%; background: #07090d; color: #c9f5e6;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace; -webkit-tap-highlight-color: transparent; }
+      #wrap { position: fixed; inset: 0; display: flex; flex-direction: column; }
+      #preview { flex: 1; width: 100%; object-fit: cover; background: #000; }
+      #bar { padding: 12px 14px calc(12px + env(safe-area-inset-bottom)); display: flex;
+        gap: 10px; align-items: center; background: #0b0f15; border-top: 1px solid #1c2530; }
+      #status { flex: 1; font-size: 13px; line-height: 1.3; }
+      .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px;
+        vertical-align: middle; background: #f5a623; }
+      .dot.on { background: #39ff8b; } .dot.err { background: #ff4d4d; }
+      button { font: inherit; font-size: 14px; padding: 10px 14px; border-radius: 8px;
+        border: 1px solid #2a3744; background: #131a22; color: #c9f5e6; }
+      button:active { background: #1d2731; }
+    </style>
+  </head>
+  <body>
+    <div id="wrap">
+      <video id="preview" autoplay playsinline muted></video>
+      <div id="bar">
+        <div id="status"><span class="dot" id="dot"></span><span id="msg">запуск…</span></div>
+        <button id="flip">🔄 камера</button>
+      </div>
+    </div>
+    <script type="module" src="/src/phone/main.ts"></script>
+  </body>
+</html>

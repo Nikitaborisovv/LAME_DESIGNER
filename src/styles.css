@@ -1,0 +1,263 @@
+:root {
+  /* десатурированные нейтральные фоны (без синевы) */
+  --bg: #0a0a0b;
+  --panel: rgba(18, 18, 20, 0.92);
+  --line: rgba(150, 150, 160, 0.14);
+  --text: #d3d3d8;
+  --muted: #7c7c84;
+  /* акцент — розовый (вместо салатового) */
+  --accent: #ff2d8e;
+  --accent-soft: rgba(255, 45, 142, 0.12);
+  --track: rgba(150, 150, 160, 0.28);
+  --mono: "JetBrains Mono", "SF Mono", ui-monospace, monospace;
+  --sans: "Chakra Petch", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  overflow: hidden;
+}
+
+.app { display: flex; height: 100%; }
+/* isolation: T3 Composite — mix-blend-mode облака/flat смешивает их МЕЖДУ собой, не пробивая
+   фон страницы (граница стэкинг-контекста). */
+.stage { position: relative; flex: 1; min-width: 0; isolation: isolate; }
+
+/* ---- тонкие аккуратные скроллбары в цветах дизайна ---- */
+* { scrollbar-width: thin; scrollbar-color: rgba(255, 45, 142, 0.45) transparent; }
+::-webkit-scrollbar { width: 7px; height: 7px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255, 45, 142, 0.4); border: 0; border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+::-webkit-scrollbar-corner { background: transparent; }
+
+.hint {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 8px; color: var(--muted);
+  font-family: var(--mono); letter-spacing: 0.04em; pointer-events: none;
+}
+.hint p { font-size: 15px; margin: 0; }
+.hint small { font-size: 11px; opacity: 0.6; }
+
+/* ---- панель ---- */
+.panel {
+  width: 312px; flex-shrink: 0; height: 100%; overflow-y: auto;
+  background: var(--panel); border-left: 1px solid var(--line);
+  backdrop-filter: blur(14px); padding: 16px 16px 28px;
+  display: flex; flex-direction: column; gap: 18px;
+}
+/* левая панель — общее; правая — слои/инспектор */
+.panel.left { border-left: none; border-right: 1px solid var(--line); }
+
+.panel-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.panel-head h1 {
+  font-family: var(--mono); font-size: 19px; font-weight: 800;
+  letter-spacing: 0.04em; margin: 0; color: var(--text);
+}
+.panel-head .dot { color: var(--accent); }
+.device {
+  font-family: var(--mono); font-size: 10px; color: var(--accent);
+  border: 1px solid var(--line); padding: 2px 6px; text-transform: uppercase;
+}
+
+.panel section { display: flex; flex-direction: column; gap: 9px; }
+.legend {
+  font-family: var(--mono); font-size: 17px; letter-spacing: 0.02em; font-weight: 800;
+  text-transform: uppercase; color: var(--text);
+  border-bottom: 1px solid var(--line); padding-bottom: 6px;
+}
+
+.row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.row > span { font-size: 12px; color: var(--text); opacity: 0.85; }
+
+/* ---- кастомный слайдер: тонкая серая линия + толстое розовое заполнение + розовый квадрат ---- */
+.row input[type="range"] {
+  -webkit-appearance: none; appearance: none;
+  width: 130px; height: 16px; background: transparent; cursor: pointer; margin: 0;
+}
+.row input[type="range"]::-webkit-slider-runnable-track {
+  height: 16px; border: 0;
+  background:
+    linear-gradient(var(--accent) 0 0) left center / var(--val, 0%) 6px no-repeat,
+    linear-gradient(var(--track) 0 0) left center / 100% 2px no-repeat;
+}
+.row input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 12px; height: 12px; margin-top: 2px; background: var(--accent);
+  border: 0; border-radius: 0;
+}
+.row input[type="range"]::-moz-range-track { height: 2px; background: var(--track); border: 0; }
+.row input[type="range"]::-moz-range-progress { height: 6px; background: var(--accent); border: 0; }
+.row input[type="range"]::-moz-range-thumb { width: 12px; height: 12px; background: var(--accent); border: 0; border-radius: 0; }
+
+.row input[type="checkbox"] {
+  -webkit-appearance: none; appearance: none; width: 16px; height: 16px;
+  border: 1px solid var(--line); background: rgba(150, 160, 170, 0.06); cursor: pointer; position: relative;
+}
+.row input[type="checkbox"]:checked { background: var(--accent); border-color: var(--accent); }
+.row input[type="checkbox"]:checked::after {
+  content: ""; position: absolute; inset: 3px; background: #0a0a0b;
+}
+.row input[type="color"] {
+  width: 34px; height: 22px; border: 1px solid var(--line);
+  background: none; border-radius: 0; cursor: pointer; padding: 0;
+}
+.row input[type="text"] {
+  width: 130px; background: rgba(150, 160, 170, 0.06); color: var(--text);
+  border: 1px solid var(--line); border-radius: 0; padding: 3px 6px;
+  font-family: var(--mono); font-size: 11px;
+}
+.panel input[type="file"] {
+  font-family: var(--mono); font-size: 11px; color: var(--muted);
+  border: 1px dashed var(--line); border-radius: 0; padding: 10px; width: 100%;
+}
+.panel footer {
+  margin-top: auto; font-family: var(--mono); font-size: 10px;
+  color: var(--muted); letter-spacing: 0.04em; opacity: 0.7;
+}
+
+/* ---- кнопки ---- */
+.modes { display: flex; gap: 8px; }
+.mode {
+  flex: 1; font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em;
+  color: var(--muted); background: rgba(150, 160, 170, 0.05);
+  border: 1px solid var(--line); border-radius: 0; padding: 9px 6px;
+  cursor: pointer; transition: all 0.15s;
+}
+.mode:hover { color: var(--text); border-color: rgba(150, 160, 170, 0.35); }
+.mode.on {
+  color: var(--accent); border-color: var(--accent);
+  background: var(--accent-soft); box-shadow: 0 0 12px rgba(255, 45, 142, 0.18);
+}
+.mode:disabled { opacity: 0.4; cursor: default; }
+
+/* ---- пресеты ---- */
+.presets-list { display: flex; flex-direction: column; gap: 4px; }
+.preset-row { display: flex; gap: 4px; }
+.preset-load {
+  flex: 1; text-align: left; font-family: var(--mono); font-size: 11px;
+  color: var(--text); background: rgba(150, 160, 170, 0.05);
+  border: 1px solid var(--line); border-radius: 0; padding: 5px 8px; cursor: pointer;
+}
+.preset-load:hover { border-color: var(--accent); color: var(--accent); }
+.preset-del {
+  width: 26px; color: var(--muted); background: none; border: 1px solid var(--line);
+  border-radius: 0; cursor: pointer;
+}
+.preset-del:hover { color: var(--accent); border-color: var(--accent); }
+
+/* ---- панель слоёв ---- */
+.layers-list { display: flex; flex-direction: column; gap: 3px; }
+.layers-empty { font-family: var(--mono); font-size: 11px; color: var(--muted); opacity: 0.7; padding: 4px 2px; }
+.layer-row {
+  display: flex; align-items: center; gap: 7px; padding: 5px 7px;
+  background: rgba(150, 160, 170, 0.05); border: 1px solid var(--line);
+  border-radius: 0; cursor: pointer; transition: border-color 0.12s, background 0.12s;
+}
+.layer-row:hover { border-color: rgba(150, 160, 170, 0.3); }
+.layer-row.sel { border-color: var(--accent); background: var(--accent-soft); }
+.layer-row.off { opacity: 0.45; }
+.layer-row input[type="checkbox"] {
+  -webkit-appearance: none; appearance: none; width: 14px; height: 14px; flex-shrink: 0;
+  border: 1px solid var(--line); background: rgba(150, 160, 170, 0.06); cursor: pointer; position: relative;
+}
+.layer-row input[type="checkbox"]:checked { background: var(--accent); border-color: var(--accent); }
+.layer-row input[type="checkbox"]:checked::after { content: ""; position: absolute; inset: 3px; background: #0a0a0b; }
+.layer-name { flex: 1; font-family: var(--mono); font-size: 11px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.layer-name-edit {
+  flex: 1; min-width: 0; background: rgba(150, 160, 170, 0.1); color: var(--text);
+  border: 1px solid var(--accent); border-radius: 0; padding: 1px 4px;
+  font-family: var(--mono); font-size: 11px;
+}
+.layer-kind { font-family: var(--mono); font-size: 8px; color: var(--muted); border: 1px solid var(--line); border-radius: 0; padding: 1px 4px; flex-shrink: 0; }
+.layer-act {
+  width: 20px; height: 20px; flex-shrink: 0; color: var(--muted); background: none;
+  border: 1px solid var(--line); border-radius: 0; cursor: pointer; font-size: 11px; line-height: 1;
+}
+.layer-act:hover { color: var(--text); border-color: rgba(150, 160, 170, 0.3); }
+.layer-act.del:hover { color: var(--accent); border-color: var(--accent); }
+
+/* ---- всплывашка добавления слоя: выезжает ВЛЕВО из правой панели, два столбца ---- */
+.add-layer { position: relative; }
+.flyout-backdrop { position: fixed; inset: 0; z-index: 40; }
+.flyout {
+  position: fixed; right: 326px; top: 80px; z-index: 41; width: 440px; max-width: calc(100vw - 350px);
+  background: var(--panel); border: 1px solid var(--accent);
+  padding: 12px; box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55); backdrop-filter: blur(16px);
+  max-height: 70vh; overflow-y: auto;
+  animation: flyout-in 0.16s ease-out;
+}
+@keyframes flyout-in { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: translateX(0); } }
+.flyout-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.flyout-col { display: flex; flex-direction: column; gap: 4px; }
+.flyout-title {
+  font-family: var(--mono); font-size: 13px; letter-spacing: 0.04em; color: var(--accent);
+  font-weight: 800; text-transform: uppercase; margin-bottom: 4px; padding-bottom: 4px; border-bottom: 1px solid var(--line);
+}
+.flyout-item {
+  display: block; width: 100%; text-align: left; font-family: var(--mono); font-size: 11px;
+  color: var(--text); background: rgba(150, 160, 170, 0.05); border: 1px solid var(--line);
+  border-radius: 0; padding: 7px 8px; cursor: pointer;
+}
+.flyout-item:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+.flyout-item:disabled { opacity: 0.35; cursor: default; }
+
+/* ---- сцена · глобальное (сворачиваемое) ---- */
+.scene-global { border: 1px solid var(--line); border-radius: 0; padding: 4px 10px; }
+.scene-global > summary {
+  font-family: var(--mono); font-size: 15px; letter-spacing: 0.02em; font-weight: 800;
+  text-transform: uppercase; color: var(--text); cursor: pointer; padding: 6px 0; list-style: revert;
+}
+.scene-block { display: flex; flex-direction: column; gap: 9px; padding: 8px 0; border-top: 1px solid var(--line); }
+.scene-block .sub, .sub { font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; color: var(--muted); text-transform: uppercase; }
+
+/* ---- палитра монохрома (свотчи растут с числом цветов) ---- */
+.palette-control { display: flex; flex-direction: column; gap: 7px; }
+.palette-control select {
+  background: rgba(150, 160, 170, 0.06); color: var(--text);
+  border: 1px solid var(--line); border-radius: 0; font-family: var(--mono); font-size: 11px; padding: 2px 4px;
+}
+.palette-swatches { display: flex; flex-wrap: wrap; gap: 5px; }
+.palette-swatches input[type="color"] {
+  width: 30px; height: 24px; border: 1px solid var(--line); border-radius: 0;
+  background: none; cursor: pointer; padding: 0;
+}
+.palette-swatches input[type="color"].glow {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent), 0 0 9px rgba(255, 45, 142, 0.7);
+}
+
+/* ---- корешок сворачивания панелей ---- */
+.spine {
+  width: 18px; flex-shrink: 0; height: 100%; cursor: pointer;
+  background: var(--accent-soft); color: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 13px; font-weight: 800;
+  transition: background 0.15s;
+}
+.spine.left { border-right: 1px solid var(--accent); }
+.spine.right { border-left: 1px solid var(--accent); }
+.spine:hover { background: rgba(255, 45, 142, 0.22); }
+.spine span { writing-mode: vertical-rl; text-orientation: mixed; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.85; }
+.panel-collapse {
+  width: 22px; height: 22px; flex-shrink: 0; color: var(--accent); background: none;
+  border: 1px solid var(--line); border-radius: 0; cursor: pointer; font-size: 13px; line-height: 1;
+}
+.panel-collapse:hover { border-color: var(--accent); }
+
+/* ---- оверлей трекинга ---- */
+.track-layer { position: absolute; inset: 0; pointer-events: none; }
+.track-dot { position: absolute; transform: translate(-50%, -50%); }
+.track-dot i {
+  display: block; width: 8px; height: 8px; margin: 0 auto;
+  border: 1px solid var(--accent); border-radius: 50%;
+  box-shadow: 0 0 8px var(--accent);
+}
+.track-dot b {
+  font-family: var(--mono); font-size: 9px; color: var(--accent);
+  display: block; text-align: center; margin-top: 2px; opacity: 0.7;
+}
